@@ -94,5 +94,22 @@ def run_update():
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(summary)
 
+    # 6. 自動清理：只保留最新的兩個檔案，其餘刪除
+    print("正在清理舊檔案...")
+    # 重新獲取一次檔案清單，確保排序正確
+    final_files = sorted([f for f in os.listdir(DATA_DIR) if f.endswith('.xlsx')], reverse=True)
+    
+    if len(final_files) > 2:
+        files_to_delete = final_files[2:]  # 取得索引 2 之後的所有舊檔案
+        for old_file in files_to_delete:
+            file_path = os.path.join(DATA_DIR, old_file)
+            try:
+                os.remove(file_path)
+                print(f"已刪除舊檔案: {old_file}")
+            except Exception as e:
+                print(f"刪除檔案 {old_file} 失敗: {e}")
+    else:
+        print("檔案數少於或等於 2，無需清理。")
+
 if __name__ == "__main__":
     run_update()
