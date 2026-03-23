@@ -80,8 +80,8 @@ def run_update():
     merged['狀態'] = [x[0] for x in status_data]
     merged['sort'] = [x[1] for x in status_data]
 
-    # 排序：有變動的在前
-    report = merged.sort_values(['sort', '張數變動'], ascending=[True, False]).drop(columns=['sort'])
+    # 排序：有增減幅(%)的在前
+    report = merged.sort_values(['sort', '增減幅(%)'], ascending=[True, False]).drop(columns=['sort'])
 
     # 5. 產出 README 內容
     tz_taiwan = timezone(timedelta(hours=8))  # 定義台北時區 (UTC+8)
